@@ -33,6 +33,13 @@ def webhook():
     except Exception as e:
         print(f"Error during git pull: {e}")
 
+    # Perform git pull
+    try:
+        subprocess.run(['python3', 'app.py'])
+        print("run app.py successful.")
+    except Exception as e:
+        print(f"Error during run app.py: {e}")
+
     return jsonify({'status': 'success'}), 200
 
 if __name__ == '__main__':
