@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify
 import subprocess
 from subprocess import CalledProcessError
+import os
+import signal
+import sys
 
 app = Flask(__name__)
 
@@ -34,7 +37,6 @@ def webhook():
 
         # Restart the Flask application after git pull
         restart_flask()
-        # 
 
         return jsonify({'status': 'success'}), 200
 
@@ -44,20 +46,15 @@ def webhook():
 
 def restart_flask():
     try:
-        # Restart the Flask application
-        subprocess.run(['python3', 'hook.py'])
-        print("Restarted Flask application successfully. ")
+        # Get the process ID of the current running script
+        current_pid = os.getpid()
+
+        # Restart the script by sending a signal
+        os.kill(current_pid, signal.SIGTERM)
+
     except CalledProcessError as e:
         print(f"Error during Flask application restart: {e}")
-
-def run_app():
-    try:
-        # Restart the Flask application
-        subprocess.run(['python3', 'app.py'])
-        print("run app.py successfully. ")
-    except CalledProcessError as e:
-        print(f"Error during app.py run: {e}")
+        sys.exit(1)
 
 if __name__ == '__main__':
-    run_app()
     app.run(host='0.0.0.0', port=5000)
