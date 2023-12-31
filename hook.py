@@ -24,7 +24,7 @@ def webhook():
                 # Git pull from the repository
                 subprocess.run(['git', 'pull'])
                 # Run deployment script or commands
-                subprocess.run(['./deploy.sh'])
+                # subprocess.run(['./deploy.sh'])
                 logger.info('Deployment successful.')
                 return jsonify({'status': 'success'}), 200
             except Exception as e:
