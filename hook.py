@@ -48,6 +48,7 @@ def restart_flask():
     try:
         # Get the process ID of the current running script
         current_pid = os.getpid()
+        print(f"chay trong nen {current_pid}")
 
         # Restart the script by sending a signal
         os.kill(current_pid, signal.SIGTERM)
