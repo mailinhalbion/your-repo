@@ -33,7 +33,7 @@ def webhook():
 
         # Perform git pull
         subprocess.run(['git', 'pull'])
-        print("Git pull thanh cong.")
+        print("Git pull thanh cong. ok")
 
         # Restart the Flask application after git pull
         restart_flask()
