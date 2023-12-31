@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import subprocess
 
 app = Flask(__name__)
 
@@ -24,6 +25,13 @@ def webhook():
         print("")
 
     print(f"Push triggered by: {sender.get('login', '')}")
+
+    # Perform git pull
+    try:
+        subprocess.run(['git', 'pull'])
+        print("Git pull successful.")
+    except Exception as e:
+        print(f"Error during git pull: {e}")
 
     return jsonify({'status': 'success'}), 200
 
