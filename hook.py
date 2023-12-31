@@ -34,7 +34,7 @@ def webhook():
 
         # Restart the Flask application after git pull
         restart_flask()
-        run_app()
+        # 
 
         return jsonify({'status': 'success'}), 200
 
@@ -59,4 +59,5 @@ def run_app():
         print(f"Error during app.py run: {e}")
 
 if __name__ == '__main__':
+    run_app()
     app.run(host='0.0.0.0', port=5000)
