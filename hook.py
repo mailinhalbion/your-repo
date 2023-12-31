@@ -45,7 +45,7 @@ def restart_flask():
     try:
         # Restart the Flask application
         subprocess.run(['python3', 'hook.py'])
-        print("Restarted Flask application successfully.")
+        print("Restarted Flask application successfully. ")
     except CalledProcessError as e:
         print(f"Error during Flask application restart: {e}")
 
