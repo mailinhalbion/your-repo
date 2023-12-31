@@ -34,6 +34,7 @@ def webhook():
 
         # Restart the Flask application after git pull
         restart_flask()
+        run_app()
 
         return jsonify({'status': 'success'}), 200
 
@@ -48,6 +49,14 @@ def restart_flask():
         print("Restarted Flask application successfully. ")
     except CalledProcessError as e:
         print(f"Error during Flask application restart: {e}")
+
+def run_app():
+    try:
+        # Restart the Flask application
+        subprocess.run(['python3', 'app.py'])
+        print("run app.py successfully. ")
+    except CalledProcessError as e:
+        print(f"Error during app.py run: {e}")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
