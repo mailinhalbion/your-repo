@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import subprocess
 import logging
+import ssl
 
 app = Flask(__name__)
 
@@ -35,4 +36,5 @@ def webhook():
         return jsonify({'status': 'unauthorized', 'message': 'Invalid secret token'}), 401
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+    app.run(host='0.0.0.0', port=5000, ssl_context=context)
