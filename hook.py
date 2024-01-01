@@ -4,9 +4,10 @@ from subprocess import CalledProcessError
 import os
 import signal
 import sys
-import psutil
 
 app = Flask(__name__)
+app_process = None
+app_name = "app.py"
 
 @app.route('/webhook-endpoint', methods=['POST'])
 def webhook():
@@ -34,8 +35,9 @@ def webhook():
         subprocess.run(['git', 'pull'])
 
         # Restart the Flask application after git pull
-        
+        terminate_process(app_process)
         restart_flask()
+        
 
         return jsonify({'status': 'success'}), 200
 
@@ -56,32 +58,12 @@ def restart_flask():
         print(f"Error during Flask application restart: {e}")
         sys.exit(1)
 
-def restart_app():
-    app_name = "app.py"
-
-    if is_process_running("python3") and is_process_running(app_name):
-        print(f"{app_name} is already running. Restarting...")
-
-        for process in psutil.process_iter(['pid', 'name']):
-            if process.info['name'] == 'python3' and app_name in process.cmdline():
-                process.terminate()
-                process.wait()
-
-        start_app()
-
-    else:
-        print(f"{app_name} is not running. Starting...")
-        start_app()
-
-def is_process_running(process_name):
-    for process in psutil.process_iter(['pid', 'name']):
-        if process.info['name'] == process_name:
-            return True
-    return False
-
-def start_app():
-    subprocess.Popen(['python3', 'app.py'])
+def terminate_process(process):
+    if process.info['name'] == "python3":
+        process.terminate()
+        process.wait()
 
 if __name__ == '__main__':
-    restart_app()
+    
+    app_process = subprocess.Popen(['python3', app_name])
     app.run(host='0.0.0.0', port=5000)
