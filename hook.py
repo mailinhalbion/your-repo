@@ -60,8 +60,11 @@ def restart_flask():
         sys.exit(1)
 
 def terminate_process(process):
-    process.terminate()
-    process.wait()
+    try:
+        process.terminate()
+        process.wait()
+    except Exception as e:
+        print(e)
 
 if __name__ == '__main__':
     
