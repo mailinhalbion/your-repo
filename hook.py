@@ -34,7 +34,7 @@ def webhook():
         subprocess.run(['git', 'pull'])
 
         # Restart the Flask application after git pull
-        restart_app()
+        
         restart_flask()
 
         return jsonify({'status': 'success'}), 200
@@ -83,4 +83,5 @@ def start_app():
     subprocess.Popen(['python3', 'app.py'])
 
 if __name__ == '__main__':
+    restart_app()
     app.run(host='0.0.0.0', port=5000)
