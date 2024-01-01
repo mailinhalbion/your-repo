@@ -4,6 +4,7 @@ from subprocess import CalledProcessError
 import os
 import signal
 import sys
+import psutil
 
 app = Flask(__name__)
 
@@ -20,13 +21,11 @@ def webhook():
         print(f"Received a push to branch: {ref}")
         
         for commit in commits:
-            commit_id = commit.get('id', '')
             message = commit.get('message', '')
             author = commit.get('author', {}).get('name', '')
 
-            print(f"  Commit 2222 ID: {commit_id}")
-            print(f"  tac gia 2: {author}")
-            print(f"  Message 2: {message}")
+            print(f"  tac gia: {author}")
+            print(f"  Message: {message}")
             print("")
 
         print(f"Push triggered by: {sender.get('login', '')}")
@@ -55,6 +54,32 @@ def restart_flask():
     except CalledProcessError as e:
         print(f"Error during Flask application restart: {e}")
         sys.exit(1)
+
+def restart_app():
+    app_name = "app.py"
+
+    if is_process_running("python3") and is_process_running(app_name):
+        print(f"{app_name} is already running. Restarting...")
+
+        for process in psutil.process_iter(['pid', 'name']):
+            if process.info['name'] == 'python3' and app_name in process.cmdline():
+                process.terminate()
+                process.wait()
+
+        start_app()
+
+    else:
+        print(f"{app_name} is not running. Starting...")
+        start_app()
+
+def is_process_running(process_name):
+    for process in psutil.process_iter(['pid', 'name']):
+        if process.info['name'] == process_name:
+            return True
+    return False
+
+def start_app():
+    subprocess.Popen(['python3', 'app.py'])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
