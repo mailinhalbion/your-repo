@@ -26,7 +26,7 @@ def webhook():
 
             print(f"  Commit 2222 ID: {commit_id}")
             print(f"  tac gia 2: {author}")
-            print(f"  Message: {message}")
+            print(f"  Message 2: {message}")
             print("")
 
         print(f"Push triggered by: {sender.get('login', '')}")
