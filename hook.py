@@ -24,7 +24,7 @@ def webhook():
             message = commit.get('message', '')
             author = commit.get('author', {}).get('name', '')
 
-            print(f"  Commit ID: {commit_id}")
+            print(f"  Commit 2222 ID: {commit_id}")
             print(f"  tac gia: {author}")
             print(f"  Message: {message}")
             print("")
