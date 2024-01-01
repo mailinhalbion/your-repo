@@ -25,7 +25,7 @@ def webhook():
             author = commit.get('author', {}).get('name', '')
 
             print(f"  Commit ID: {commit_id}")
-            print(f"  Author: {author}")
+            print(f"  tac gia: {author}")
             print(f"  Message: {message}")
             print("")
 
@@ -33,7 +33,6 @@ def webhook():
 
         # Perform git pull
         subprocess.run(['git', 'pull'])
-        print("Git pull thanh cong. ok")
 
         # Restart the Flask application after git pull
         restart_flask()
