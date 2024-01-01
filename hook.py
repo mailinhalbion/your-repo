@@ -35,7 +35,8 @@ def webhook():
         subprocess.run(['git', 'pull'])
 
         # Restart the Flask application after git pull
-        terminate_process(app_process)
+        if app_process:
+            terminate_process(app_process)
         restart_flask()
         
 
@@ -59,9 +60,8 @@ def restart_flask():
         sys.exit(1)
 
 def terminate_process(process):
-    if process.info['name'] == "python3":
-        process.terminate()
-        process.wait()
+    process.terminate()
+    process.wait()
 
 if __name__ == '__main__':
     
